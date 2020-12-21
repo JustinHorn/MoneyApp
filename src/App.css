@@ -1,38 +1,93 @@
 .App {
   text-align: center;
+  --danger-red: #fc0000;
+  --red: #ff6240;
+  --green: #71ff40;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App {
+  margin-top: 100px;
+  display: grid;
+
+  grid-template-columns: auto 1000px auto;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    '. greeting .'
+    '. money .'
+    '. lists .';
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.greeting {
+  grid-area: greeting;
+  text-align: left;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.money {
+  grid-area: money;
+  padding: 50px;
+}
+
+.money span {
+  color: var(--danger-red);
+  font-weight: bold;
+  text-decoration: underline;
+  font-size: 1.5em;
+}
+
+.lists {
+  margin: 0;
+  padding: 0;
+  grid-area: lists;
+  display: flex;
+  justify-content: space-between;
+}
+
+.transactions,
+.users {
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.transaction-list,
+.userlist {
+  list-style-type: none;
+  border: 1px solid black;
+  height: 500px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.transaction-list li,
+.userlist li {
+  padding: 0;
+  margin: 5px;
+}
+
+.transaction-list li button,
+.userlist li button {
+  width: 275px;
+  padding: 5px 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.transaction-list li {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.transaction-list .recievedMoney {
+  background-color: var(--red);
+  margin-right: auto;
+}
+
+.transaction-list .sendMoney {
+  background-color: var(--green);
+  margin-left: auto;
 }
