@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 
 import firebase from 'firebase';
 
+import { UserContextProvider } from 'context/user_context';
+
 var firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: 'justin-money.firebaseapp.com',
@@ -21,7 +23,9 @@ firebase.analytics();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <UserContextProvider>
+      <App />
+    </UserContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
