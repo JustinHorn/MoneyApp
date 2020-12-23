@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import { UserContextProvider } from 'context/UserContext';
+import { AuthContextProvider } from 'context/AuthContext';
 
 import { BrowserRouter as Router } from 'react-router-dom';
 
@@ -12,11 +12,11 @@ import * as f from 'service/firebase';
 
 ReactDOM.render(
   <React.StrictMode>
-    <UserContextProvider>
+    <AuthContextProvider>
       <Router>
         <App />
       </Router>
-    </UserContextProvider>
+    </AuthContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

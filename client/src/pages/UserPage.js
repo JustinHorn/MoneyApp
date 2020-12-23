@@ -3,10 +3,12 @@ import UserList from 'components/userlist';
 
 import { useContext } from 'react';
 
-import UserContext from 'context/UserContext';
+import UserContext from 'context/AuthContext';
 
 const UserPage = () => {
   const { user } = useContext(UserContext);
+
+  console.log('we are on the user page');
 
   return (
     <div className="UserPage">

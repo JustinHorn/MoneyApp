@@ -3,18 +3,17 @@ import './App.css';
 
 import UserPage from 'pages/UserPage';
 
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 
-import PrivateRoute from 'components/privateroute';
+import PrivateRoute from 'components/PrivateRoute';
 
 function App() {
+  const location = useLocation();
+  console.log(location);
   return (
     <div className="App">
       <Switch>
         <PrivateRoute path="/" Component={UserPage}></PrivateRoute>
-        <Route path="/">
-          <h1>Login!</h1>
-        </Route>
       </Switch>
     </div>
   );
