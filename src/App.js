@@ -1,20 +1,21 @@
 import logo from './logo.svg';
 import './App.css';
 
-import { useContext } from 'react';
+import UserPage from 'pages/UserPage';
 
-import User from 'model/user_model';
-import UserContext from 'context/user_context';
+import { Switch, Route } from 'react-router-dom';
 
-import UserPage from 'pages/user_page';
+import PrivateRoute from 'components/privateroute';
 
 function App() {
-  const { user } = useContext(UserContext);
-
   return (
     <div className="App">
-      user
-      {user && <UserPage user={user} />}
+      <Switch>
+        <PrivateRoute path="/" Component={UserPage}></PrivateRoute>
+        <Route path="/">
+          <h1>Login!</h1>
+        </Route>
+      </Switch>
     </div>
   );
 }

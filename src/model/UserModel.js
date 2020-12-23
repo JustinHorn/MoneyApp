@@ -1,6 +1,7 @@
-import { transactions } from 'fakeData';
+let id = 1;
 
-function User(name, money) {
+function User(name, money, transactions) {
+  this.id = id++;
   this.name = name;
   this.money = money;
   this.transactions = transactions;

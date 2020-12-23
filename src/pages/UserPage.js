@@ -1,7 +1,13 @@
 import TransactionList from 'components/transactionlist';
 import UserList from 'components/userlist';
 
-const UserPage = ({ user }) => {
+import { useContext } from 'react';
+
+import UserContext from 'context/UserContext';
+
+const UserPage = () => {
+  const { user } = useContext(UserContext);
+
   return (
     <div className="UserPage">
       <h3 className="greeting">Hi {user.name}!</h3>
