@@ -1,39 +1,40 @@
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 
-const GoogleStrategy = require('passport-google-oauth').OAuthStrategy;
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-function initializePassport(passport, getUserByEmail, getUserById) {
-  const authenticateUser = async (email, password, done) => {
-    const user = getUserByEmail(email);
-    if (user == null)
-      return done(null, false, { message: 'No user with that email!' });
+const users = require('./model/users');
 
-    try {
-      if (await bcrypt.compare(password, user.password)) {
-        return done(null, user);
-      } else {
-        return done(null, false, { message: 'Password incorrect' });
+const getUserById = (id) => users.find((user) => user.id === id);
+
+function initializePassport(passport) {
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_CONSUMER_KEY,
+        clientSecret: process.env.GOOGLE_CONSUMER_SECRET,
+        callbackURL: 'http://localhost:3000/auth/google/callback',
+      },
+      function (token, tokenSecret, profile, done) {
+        console.log('_________________');
+        console.log(profile);
+        console.log('_________________');
+        if (!getUserById(profile.id)) {
+          users.push(profile);
+        }
+
+        return done(null, profile);
       }
-    } catch (e) {
-      return done(e);
-    }
-  };
-  passport.use(new LocalStrategy({ usernameField: 'email' }, authenticateUser));
+    )
+  );
   passport.serializeUser((user, done) => done(null, user.id));
   passport.deserializeUser((id, done) => {
     done(null, getUserById(id));
   });
 }
 
-const users = require('./model/users');
-
 const passport = require('passport');
 
-initializePassport(
-  passport,
-  (email) => users.find((user) => user.email === email),
-  (id) => users.find((user) => user.id === id)
-);
+initializePassport(passport);
 
 module.exports = passport;
