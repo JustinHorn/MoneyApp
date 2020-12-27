@@ -10,9 +10,14 @@ var logger = require('morgan');
 
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGODB_ATLAS_URL, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_ATLAS_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
 
-var indexRouter = require('./routes/index');
+var authenticationRouter = require('./routes/auth');
+var apiRouter = require('./routes/api');
 
 const passport = require('./passport-config');
 
@@ -35,14 +40,11 @@ app.use(express.static(path.join(__dirname, 'client', 'build')));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', indexRouter);
+app.use('/auth', authenticationRouter);
+app.use('/api', apiRouter);
 
 app.get('/react', (req, res, next) => {
   res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-});
-
-app.get('/user/me', (req, res, next) => {
-  res.send(req.user);
 });
 
 // catch 404 and forward to error handler

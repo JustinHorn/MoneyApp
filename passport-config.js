@@ -1,28 +1,36 @@
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-const { User, findUserById } = require('./model/users');
+const { User, getUserById } = require('./model/users');
+
+const {
+  GOOGLE_AUTH_CONSUMER_KEY,
+  GOOGLE_AUTH_CONSUMER_SECRET,
+  HOST,
+  PORT,
+} = process.env;
 
 function initializePassport(passport) {
   passport.use(
     new GoogleStrategy(
       {
-        clientID: process.env.GOOGLE_CONSUMER_KEY,
-        clientSecret: process.env.GOOGLE_CONSUMER_SECRET,
-        callbackURL: 'http://localhost:4000/auth/google/callback',
+        clientID: GOOGLE_AUTH_CONSUMER_KEY,
+        clientSecret: GOOGLE_AUTH_CONSUMER_SECRET,
+        callbackURL: `${HOST}:${PORT}/auth/google/callback`,
       },
       async function (token, tokenSecret, profile, done) {
-        if (!(await findUserById(profile.id))) {
+        const user = await getUserById(profile.id);
+
+        if (!user.firstName) {
           const user = new User({
             id: profile.id,
             firstName: profile.name.givenName,
             lastName: profile.name.familyName,
           });
           await user.save();
+          return done(null, user);
         }
 
-        const userData = profile;
-
-        return done(null, userData);
+        return done(null, user);
       }
     )
   );
