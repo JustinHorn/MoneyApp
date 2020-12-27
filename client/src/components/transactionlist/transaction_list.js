@@ -1,7 +1,7 @@
-const TransactionList = ({ transactions }) => {
+const TransactionList = ({ transactionList }) => {
   return (
     <ul className="transaction-list">
-      {transactions?.map((t) => (
+      {transactionList?.map((t) => (
         <li>
           <span> {t.message}</span>
         </li>

@@ -5,10 +5,10 @@ import { useContext, useEffect, useState } from 'react';
 
 import UserContext from 'context/AuthContext';
 
-import api from 'axios';
+import useTransactionsOfUser from 'hooks/useTransactionsOfUser';
 
-const UserPage = () => {
-  const { user, getUsers } = useContext(UserContext);
+const HomePage = () => {
+  const { user, getUsers, logout } = useContext(UserContext);
 
   const [userList, setUserList] = useState([]);
 
@@ -16,9 +16,14 @@ const UserPage = () => {
     getUsers().then((users) => setUserList(users));
   }, []);
 
+  const transactionList = useTransactionsOfUser(user.id);
   return (
-    <div className="UserPage">
-      <h3 className="greeting">Hi {user.firstName}!</h3>
+    <div className="HomePage">
+      <div className="greeting">
+        <h3 className="">Hi {user.firstName}!</h3>
+
+        <button onClick={logout}>Logout</button>
+      </div>
       <h1 className="money">
         You have <span>{user.money}€</span> to much! <br />
         Send money to others!
@@ -29,11 +34,11 @@ const UserPage = () => {
           <UserList userList={userList}></UserList>
         </div>
         <div className="transactions">
-          <TransactionList transactions={[]}></TransactionList>
+          <TransactionList transactionList={transactionList}></TransactionList>
         </div>
       </div>
     </div>
   );
 };
 
-export default UserPage;
+export default HomePage;

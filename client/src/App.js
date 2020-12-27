@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 
-import UserPage from 'pages/UserPage';
+import HomePage from 'pages/HomePage';
 
 import { Switch } from 'react-router-dom';
 
@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="App">
       <Switch>
-        <PrivateRoute path="/" component={UserPage}></PrivateRoute>
+        <PrivateRoute path="/" component={HomePage}></PrivateRoute>
       </Switch>
     </div>
   );

@@ -20,7 +20,7 @@ function initializePassport(passport) {
       async function (token, tokenSecret, profile, done) {
         const user = await getUserById(profile.id);
 
-        if (!user.firstName) {
+        if (!user) {
           const user = new User({
             id: profile.id,
             firstName: profile.name.givenName,

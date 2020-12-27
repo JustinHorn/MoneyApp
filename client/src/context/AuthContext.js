@@ -43,8 +43,33 @@ export const AuthContextProvider = ({ children }) => {
     return res.data;
   };
 
+  const getTransactions = async () => {
+    const res = await api.get(`/user/${user.id}/transactions`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.data;
+  };
+
+  const queryUserTransActions = (id) =>
+    api.get(`/user/${id}/transactions`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
   return (
-    <AuthContext.Provider value={{ user, setUser, getUsers }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        setUser,
+        getUsers,
+        getTransactions,
+        queryUserTransActions,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

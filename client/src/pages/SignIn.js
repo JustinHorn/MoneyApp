@@ -22,7 +22,7 @@ const SignIn = () => {
       </a>
 
       <div className="justify-center">
-        <TransactionList transactions={transactions}></TransactionList>
+        <TransactionList transactionList={transactions}></TransactionList>
       </div>
     </div>
   );

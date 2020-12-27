@@ -9,7 +9,7 @@
   margin-top: 100px;
 }
 
-.UserPage {
+.HomePage {
   display: grid;
 
   grid-template-columns: auto 1000px auto;
@@ -23,6 +23,9 @@
 .greeting {
   grid-area: greeting;
   text-align: left;
+  display: flex;
+
+  justify-content: space-between;
 }
 
 .money {
