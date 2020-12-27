@@ -8,8 +8,6 @@ import { AuthContextProvider } from 'context/AuthContext';
 
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import * as f from 'service/firebase';
-
 ReactDOM.render(
   <React.StrictMode>
     <AuthContextProvider>

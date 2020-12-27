@@ -16,8 +16,11 @@ router.get('/login', function (req, res, next) {
 
 const passport = require('../passport-config');
 
+const cors = require('cors');
+
 router.get(
   '/auth/google',
+  cors(),
   passport.authenticate('google', {
     scope: ['https://www.googleapis.com/auth/plus.login'],
   })
@@ -27,7 +30,7 @@ router.get(
   '/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   function (req, res) {
-    res.redirect('/');
+    res.redirect('http://localhost:3000/?token=' + req.user.token);
   }
 );
 

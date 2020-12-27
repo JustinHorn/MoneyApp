@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { users } from 'fakeData';
 
-import { firebaseInit, auth } from 'service/firebase';
-
-firebaseInit();
+import axios from 'axios';
 
 const AuthContext = React.createContext(null);
 
@@ -11,20 +9,18 @@ export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    auth().onAuthStateChanged((user) => {
-      console.log(user);
-      console.log(user.providerId);
-
-      console.log(user.uid);
-
-      console.log(user.displayName);
-      console.log(user.email);
-      console.log(user.tenantId);
+    axios.get('http://localhost:4000/user/me').then((res) => {
+      console.log(res.data);
     });
+    console.log('axios get');
   }, []);
 
+  const onLogin = (data) => {
+    setUser(data);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, setUser, onLogin }}>
       {children}
     </AuthContext.Provider>
   );
