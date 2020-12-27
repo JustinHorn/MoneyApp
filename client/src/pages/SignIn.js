@@ -12,7 +12,6 @@ const SignIn = () => {
   const [token, setToken] = useState('');
 
   useEffect(() => {
-    console.log('location has changed!');
     const queryParams = new URLSearchParams(location.search);
     const urlToken = queryParams.get('token');
     if (urlToken) {
@@ -23,12 +22,14 @@ const SignIn = () => {
   }, [location.search]);
 
   useEffect(() => {
-    localStorage.setItem('passport_token', token);
+    localStorage.setItem('JWT_ID', token);
   }, [token]);
+
+  const [user, setUser] = useState(null);
 
   const checkLoginStatus = () =>
     axios
-      .get('http://localhost:4000/user/me', {
+      .get('http://localhost:4000/hidden', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -36,7 +37,7 @@ const SignIn = () => {
       .then((res) => {
         console.log('res.data:');
 
-        console.log(res.data);
+        setUser(res.data.user);
       });
 
   return (
@@ -45,6 +46,8 @@ const SignIn = () => {
       <a href="http://localhost:4000/auth/google"> login</a>
 
       <button onClick={() => checkLoginStatus()}>has locked in?</button>
+
+      {user && <h1>Hi {user.firstName} </h1>}
     </div>
   );
 };

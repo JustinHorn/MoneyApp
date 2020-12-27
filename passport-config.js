@@ -1,13 +1,6 @@
-const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcrypt');
-
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-const users = require('./model/users');
-
-const getUserById = (id) => users.find((user) => user.id === id);
-
-const jwt = require('jsonwebtoken');
+const { User, findUserById } = require('./model/users');
 
 function initializePassport(passport) {
   passport.use(
@@ -17,23 +10,25 @@ function initializePassport(passport) {
         clientSecret: process.env.GOOGLE_CONSUMER_SECRET,
         callbackURL: 'http://localhost:4000/auth/google/callback',
       },
-      function (token, tokenSecret, profile, done) {
-        if (!getUserById(profile.id)) {
-          users.push(profile);
+      async function (token, tokenSecret, profile, done) {
+        if (!(await findUserById(profile.id))) {
+          const user = new User({
+            id: profile.id,
+            firstName: profile.name.givenName,
+            lastName: profile.name.familyName,
+          });
+          await user.save();
         }
 
-        const userData = {
-          user: profile,
-          token: token,
-        };
+        const userData = profile;
 
         return done(null, userData);
       }
     )
   );
-  passport.serializeUser((userData, done) => done(null, userData.user.id));
+  passport.serializeUser((user, done) => done(null, user.id));
   passport.deserializeUser((id, done) => {
-    done(null, getUserById(id));
+    done(null, findUserById(id));
   });
 }
 

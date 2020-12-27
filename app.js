@@ -8,10 +8,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
+const mongoose = require('mongoose');
 
-const flash = require('express-flash');
-const session = require('express-session');
+mongoose.connect(process.env.MONGODB_ATLAS_URL, { useNewUrlParser: true });
+
+var indexRouter = require('./routes/index');
 
 const passport = require('./passport-config');
 
@@ -30,14 +31,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'client', 'build')));
-app.use(flash());
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -49,8 +42,6 @@ app.get('/react', (req, res, next) => {
 });
 
 app.get('/user/me', (req, res, next) => {
-  console.log('user requested');
-  console.log(req.headers);
   res.send(req.user);
 });
 
