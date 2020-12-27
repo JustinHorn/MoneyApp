@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import useAuthToken from 'hooks/useAuthToken';
 
-import axios from 'axios';
+import api from 'helper/axios';
 
-const api = axios.create({ baseURL: 'http://localhost:4000/api' });
-
-const AuthContext = React.createContext(null);
+const AuthContext = React.createContext({});
 
 export const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useAuthToken();
@@ -18,7 +16,7 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, [token]);
 
-  const checkLoginStatus = () =>
+  const checkLoginStatus = () => {
     api
       .get('/user/me', {
         headers: {
@@ -28,13 +26,25 @@ export const AuthContextProvider = ({ children }) => {
       .then((res) => {
         setUser(res.data);
       });
+  };
 
   const logout = () => {
     setToken('');
     setUser(null);
   };
+
+  const getUsers = async () => {
+    const res = await api.get('/users', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(res);
+    return res.data;
+  };
+
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, setUser, getUsers }}>
       {children}
     </AuthContext.Provider>
   );

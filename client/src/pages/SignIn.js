@@ -1,10 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 
-import axios from 'axios';
-
 import TransactionList from 'components/transactionlist';
 
-const api = axios.create({ baseURL: 'http://localhost:4000/api' });
+import api from 'helper/axios';
 
 const SignIn = () => {
   const [transactions, setTransactions] = useState([]);
