@@ -10,11 +10,11 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
-    <AuthContextProvider>
-      <Router>
+    <Router>
+      <AuthContextProvider>
         <App />
-      </Router>
-    </AuthContextProvider>
+      </AuthContextProvider>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );

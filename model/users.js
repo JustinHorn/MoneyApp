@@ -45,7 +45,7 @@ const sendMoney = async (userIdSender, userIdReceiver, amount) => {
 
 const getUserById = async (id) => {
   const user = await User.findOne({ id: id });
-  return { user, transactions };
+  return user;
 };
 
 const getUserTransActionsById = async (id) => {

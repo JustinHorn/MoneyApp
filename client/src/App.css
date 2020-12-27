@@ -95,3 +95,8 @@
   background-color: var(--green);
   margin-left: auto;
 }
+
+.justify-center {
+  display: flex;
+  justify-content: center;
+}

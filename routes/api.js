@@ -23,6 +23,16 @@ const getUserIdFromHeaders = require('./checkToken');
 
 router.use(getUserIdFromHeaders);
 
+router.get('/user/me', async (req, res, next) => {
+  try {
+    const data = await getUserById(req.userId);
+
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 router.get('/user/:id', async (req, res, next) => {
   try {
     const data = await getUserById(req.params.id);
@@ -34,7 +44,7 @@ router.get('/user/:id', async (req, res, next) => {
 });
 
 router.get(
-  '/user/transactions/:id',
+  '/user/:id/transactions',
 
   async (req, res, next) => {
     try {
