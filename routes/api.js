@@ -44,7 +44,7 @@ router.get('/user/:id', async (req, res, next) => {
 });
 
 router.get(
-  '/user/:id/transactions',
+  '/user/transactions/:id',
 
   async (req, res, next) => {
     try {
@@ -52,6 +52,7 @@ router.get(
 
       res.status(200).json(data);
     } catch (err) {
+      console.error(err);
       res.status(500).send(err);
     }
   }
@@ -77,6 +78,7 @@ router.post('/transaction', async (req, res, next) => {
 
     res.send(message);
   } catch (err) {
+    console.error(err);
     res.status(500).send(err);
   }
 });

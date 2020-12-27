@@ -53,11 +53,32 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const queryUserTransActions = (id) =>
-    api.get(`/user/${id}/transactions`, {
+    api.get(`/user/transactions/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+
+  const queryUser = (id) =>
+    api.get(`/user/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+  const sendMoney = (receiverId, amount) =>
+    api.post(
+      `/transaction`,
+      {
+        receiverId,
+        amount,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
   return (
     <AuthContext.Provider
@@ -67,7 +88,9 @@ export const AuthContextProvider = ({ children }) => {
         getUsers,
         getTransactions,
         queryUserTransActions,
+        queryUser,
         logout,
+        sendMoney,
       }}
     >
       {children}

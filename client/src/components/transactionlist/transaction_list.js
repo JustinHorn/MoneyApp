@@ -2,7 +2,7 @@ const TransactionList = ({ transactionList }) => {
   return (
     <ul className="transaction-list">
       {transactionList?.map((t) => (
-        <li>
+        <li key={'t' + t.createdAt}>
           <span> {t.message}</span>
         </li>
       ))}

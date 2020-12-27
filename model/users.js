@@ -25,7 +25,7 @@ const sendMoney = async (userIdSender, userIdReceiver, amount) => {
     throw new Exception(`${user1.firstName} does not have ${amount}€`);
   }
 
-  user2.money += amount;
+  user2.money -= -amount;
   user1.money -= amount;
 
   await user1.save();
@@ -49,7 +49,7 @@ const getUserById = async (id) => {
 };
 
 const getUserTransActionsById = async (id) => {
-  const transactions = await TransactionModel.find({
+  const transactions = await Transaction.find({
     $or: [{ senderId: id }, { receiverId: id }],
   })
     .limit(20)
