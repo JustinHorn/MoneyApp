@@ -1,6 +1,6 @@
 import { useParams, Link, useHistory } from 'react-router-dom';
 import TransactionList from 'components/transactionlist';
-import useTransactionsOfUser from 'hooks/useTransactionsOfUser';
+import useTransactionsOfUser from 'hooks/useGetTransactionsOfUser';
 import { useContext, useEffect, useState } from 'react';
 import AuthContext from 'context/AuthContext';
 

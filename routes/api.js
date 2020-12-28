@@ -70,13 +70,13 @@ router.get('/users', async (req, res, next) => {
 
 router.post('/transaction', async (req, res, next) => {
   try {
-    const message = await sendMoney(
+    const data = await sendMoney(
       req.userId,
       req.body.receiverId,
       req.body.amount
     );
 
-    res.send(message);
+    res.json(data);
   } catch (err) {
     console.error(err);
     res.status(500).send(err);

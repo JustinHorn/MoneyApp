@@ -1,9 +1,17 @@
 import AuthContext from 'context/AuthContext';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
+
 import { Link, useLocation } from 'react-router-dom';
 
-const UserList = ({ userList }) => {
-  const { user } = useContext(AuthContext);
+const UserList = () => {
+  const { user, getUsers } = useContext(AuthContext);
+
+  const [userList, setUserList] = useState([]);
+
+  useEffect(() => {
+    getUsers().then((users) => setUserList(users));
+  });
+
   return (
     <ul className="userlist">
       {userList

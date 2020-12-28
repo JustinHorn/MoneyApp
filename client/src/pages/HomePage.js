@@ -5,18 +5,15 @@ import { useContext, useEffect, useState } from 'react';
 
 import UserContext from 'context/AuthContext';
 
-import useTransactionsOfUser from 'hooks/useTransactionsOfUser';
+import AccountTransactionList from 'components/transactionlist/AccountTransactioList';
 
 const HomePage = () => {
-  const { user, getUsers, logout } = useContext(UserContext);
-
-  const [userList, setUserList] = useState([]);
+  const { user, logout, getAccountData } = useContext(UserContext);
 
   useEffect(() => {
-    getUsers().then((users) => setUserList(users));
+    getAccountData();
   }, []);
 
-  const transactionList = useTransactionsOfUser(user.id);
   return (
     <div className="HomePage">
       <div className="greeting">
@@ -31,10 +28,10 @@ const HomePage = () => {
 
       <div className="lists">
         <div className="users">
-          <UserList userList={userList}></UserList>
+          <UserList />
         </div>
         <div className="transactions">
-          <TransactionList transactionList={transactionList}></TransactionList>
+          <AccountTransactionList />
         </div>
       </div>
     </div>

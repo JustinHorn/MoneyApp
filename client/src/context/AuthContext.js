@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import useAuthToken from 'hooks/useAuthToken';
-
-import api from 'helper/axios';
+import axios from 'axios';
 
 const AuthContext = React.createContext({});
+const baseURL = process.env.REACT_APP_API_BASEURL;
+let api = axios.create({ baseURL });
 
 export const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useAuthToken();
@@ -12,20 +13,19 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (token) {
-      checkLoginStatus();
+      getAccountData();
     }
   }, [token]);
 
-  const checkLoginStatus = () => {
-    api
-      .get('/user/me', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setUser(res.data);
-      });
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  const getAccountData = async () => {
+    const { data } = await api.get('/user/me', {
+      headers,
+    });
+    setUser(data);
   };
 
   const logout = () => {
@@ -35,35 +35,26 @@ export const AuthContextProvider = ({ children }) => {
 
   const getUsers = async () => {
     const res = await api.get('/users', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers,
     });
-    console.log(res);
     return res.data;
   };
 
   const getTransactions = async () => {
     const res = await api.get(`/user/${user.id}/transactions`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers,
     });
     return res.data;
   };
 
   const queryUserTransActions = (id) =>
     api.get(`/user/transactions/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers,
     });
 
   const queryUser = (id) =>
     api.get(`/user/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers,
     });
 
   const sendMoney = (receiverId, amount) =>
@@ -74,9 +65,7 @@ export const AuthContextProvider = ({ children }) => {
         amount,
       },
       {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers,
       }
     );
 
@@ -84,6 +73,7 @@ export const AuthContextProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
+        getAccountData,
         setUser,
         getUsers,
         getTransactions,

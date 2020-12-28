@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 
 import AuthContext from 'context/AuthContext';
 
-const useTransactionsOfUser = (id) => {
+const useGetTransactionsOfUser = (id) => {
   const { queryUserTransActions } = useContext(AuthContext);
 
   const [transactionList, setTransactionList] = useState([]);
@@ -15,4 +15,4 @@ const useTransactionsOfUser = (id) => {
   return transactionList;
 };
 
-export default useTransactionsOfUser;
+export default useGetTransactionsOfUser;

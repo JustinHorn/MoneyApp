@@ -40,7 +40,7 @@ const sendMoney = async (userIdSender, userIdReceiver, amount) => {
     message,
   }).save();
 
-  return message;
+  return { user1, user2, message };
 };
 
 const getUserById = async (id) => {

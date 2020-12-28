@@ -1,3 +1,3 @@
-import TransactionList from './transaction_list';
+import TransactionList from './TransactionList';
 
 export default TransactionList;
