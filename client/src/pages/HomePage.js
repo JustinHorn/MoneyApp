@@ -23,7 +23,7 @@ const HomePage = () => {
       </div>
       <h1 className="money">
         You have <span>{user.money}€</span> to much! <br />
-        Send money to others!
+        {(user.money > 0 && 'Send money to others!') || 'Good Job!'}
       </h1>
 
       <div className="lists">

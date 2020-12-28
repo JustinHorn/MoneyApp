@@ -42,21 +42,30 @@ const UserPage = () => {
       </Link>
       <h1>{user.firstName}</h1>
       <h3>
-        He has: {user.money}€; You have {loggedInUser.money}€
+        has: {user.money}€; You have {loggedInUser.money}€
       </h3>
-
+      <br />
       <form method="POST" onSubmit={onSubmit}>
-        <label htmlFor="#amount"></label>
-        <input
-          id="amount"
-          type="number"
-          name="amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
+        <label htmlFor="#amount">How much money do you want to send?</label>
+        <br />
+        <div className="flex-row-align-center">
+          <input
+            type="range"
+            min="1"
+            max={loggedInUser.money}
+            value="50"
+            class="slider"
+            id="amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+          <span>{amount}€</span>
+        </div>
+        <br />
 
         <input type="submit" value="Send Money" />
       </form>
+      <br />
       <TransactionList transactionList={transactions}></TransactionList>
     </div>
   );

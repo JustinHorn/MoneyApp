@@ -1,0 +1,15 @@
+.transaction.receivedMoney {
+  background-color: var(--red);
+  margin-right: auto;
+}
+
+.transaction.neutral {
+  background-color: lightsalmon;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.transaction.sendMoney {
+  background-color: var(--green);
+  margin-left: auto;
+}
